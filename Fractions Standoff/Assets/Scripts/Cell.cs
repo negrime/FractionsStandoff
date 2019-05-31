@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    [Range(0, 1)]
+    public float alpha;
     public bool isReserved;
     private bool _isMouse;
+    private SpriteRenderer _spriteRenderer;
+    private Color _defaultColor;
+    
     void Start()
     {
-        
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultColor = _spriteRenderer.color;
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -35,7 +40,7 @@ public class Cell : MonoBehaviour
     private void OnMouseExit()
     {
         if (!isReserved)
-        GetComponent<SpriteRenderer>().color = Color.black;
+            _spriteRenderer.color = _defaultColor;
         _isMouse = false;
     }
 
@@ -44,13 +49,27 @@ public class Cell : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             isReserved = false;
         isReserved = true;
-        GetComponent<SpriteRenderer>().color = Color.red;
+        _spriteRenderer.color = new Color(255, 0,0, alpha);
     }
 
     private void OnMouseOver()
     {
         if (!isReserved)
-            GetComponent<SpriteRenderer>().color = Color.green;
+            _spriteRenderer.color = new Color(0, 255,0, alpha);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("!!");
+        if (!isReserved)
+             _spriteRenderer.color = new Color(0, 255,0, alpha);
+        else
+        _spriteRenderer.color = new Color(255, 0,0, alpha);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        _spriteRenderer.color = _defaultColor;
     }
 }
     
