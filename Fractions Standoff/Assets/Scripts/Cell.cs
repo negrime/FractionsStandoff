@@ -60,7 +60,6 @@ public class Cell : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("!!");
         if (!isReserved)
              _spriteRenderer.color = new Color(0, 255,0, alpha);
         else
